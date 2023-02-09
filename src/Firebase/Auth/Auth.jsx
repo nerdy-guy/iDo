@@ -1,6 +1,7 @@
-import { auth, provider } from "../firebase";
+import { auth, db, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import Cookies from "universal-cookie";
+import { doc, setDoc } from "firebase/firestore";
 
 const cookies = new Cookies();
 
@@ -13,6 +14,15 @@ const Auth = ({ setIsAuth }) => {
     } catch (e) {
       console.error(e);
     }
+
+    const userRef = doc(db, "users", auth.currentUser.uid);
+
+    await setDoc(userRef, {
+      user: auth.currentUser.displayName,
+      email: auth.currentUser.email,
+      photo: auth.currentUser.photoURL,
+      uid: auth.currentUser.uid,
+    });
   };
 
   return (
