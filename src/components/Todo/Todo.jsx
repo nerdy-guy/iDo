@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Todo = ({ todo, toggleCompleted, deleteTodo }) => {
+const Todo = ({ todo, toggleCompleted, deleteTodo, enterEditMode }) => {
   const [isCompleted, setisCompleted] = useState(todo.completed);
 
   const handleCheck = () => {
@@ -19,7 +19,7 @@ const Todo = ({ todo, toggleCompleted, deleteTodo }) => {
         />
         <label htmlFor={todo.id}>{todo.todo}</label>
 
-        <button>
+        <button onClick={() => enterEditMode(todo)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

@@ -11,13 +11,22 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import Cookies from "universal-cookie";
 import "./App.css";
+import EditForm from "./components/EditForm/EditForm";
 import Todo from "./components/Todo/Todo";
 import TodoForm from "./components/TodoForm/TodoForm";
+import Auth from "./Firebase/Auth/Auth";
 import { db } from "./Firebase/firebase";
+import { auth } from "../src/Firebase/firebase";
+
+const cookies = new Cookies();
 
 function App() {
   const [todoList, setTodoList] = useState([]);
+  const [editedTodo, setEditedTodo] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
 
   const todoListRef = collection(db, "todoList");
 
@@ -53,11 +62,44 @@ function App() {
     await deleteDoc(doc(db, "todoList", id));
   };
 
+  const editTodo = async (todo) => {
+    await updateDoc(doc(db, "todoList", todo.id), {
+      todo: todo.todo,
+    });
+
+    closeEditMode();
+  };
+
+  const closeEditMode = () => {
+    setIsEditing(false);
+  };
+
+  const enterEditMode = (todo) => {
+    setEditedTodo(todo);
+    setIsEditing(true);
+  };
+
+  if (!isAuth) {
+    return (
+      <div>
+        <Auth setIsAuth={setIsAuth} />
+      </div>
+    );
+  }
+
   return (
     <div>
       <header>
         <h1>iDo</h1>
       </header>
+
+      {isEditing && (
+        <EditForm
+          editedTodo={editedTodo}
+          editTodo={editTodo}
+          closeEditMode={closeEditMode}
+        />
+      )}
 
       <TodoForm addTodo={addTodo} />
 
@@ -68,6 +110,7 @@ function App() {
             key={todo.id}
             toggleCompleted={toggleCompleted}
             deleteTodo={deleteTodo}
+            enterEditMode={enterEditMode}
           />
         ))}
       </ul>
