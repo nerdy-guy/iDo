@@ -19,6 +19,7 @@ import TodoForm from "./components/TodoForm/TodoForm";
 import Auth from "./Firebase/Auth/Auth";
 import { db } from "./Firebase/firebase";
 import { auth } from "../src/Firebase/firebase";
+import { signOut } from "firebase/auth";
 
 const cookies = new Cookies();
 
@@ -87,7 +88,18 @@ function App() {
     );
   }
 
-  return (
+  const signUserOut = async () => {
+    await signOut(auth);
+    cookies.remove("auth-token");
+    setIsAuth(false);
+    // setTodoList(null);
+  };
+
+  return !isAuth ? (
+    <div>
+      <Auth setIsAuth={setIsAuth} />
+    </div>
+  ) : (
     <div>
       <header>
         <h1>iDo</h1>
@@ -123,6 +135,8 @@ function App() {
             : `${todoList.length} todos`}
         </p>
       )}
+
+      <button onClick={signUserOut}>Sign out</button>
     </div>
   );
 }
