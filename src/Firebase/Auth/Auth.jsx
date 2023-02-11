@@ -3,9 +3,7 @@ import { signInWithPopup } from "firebase/auth";
 import Cookies from "universal-cookie";
 import { doc, setDoc } from "firebase/firestore";
 
-const cookies = new Cookies();
-
-const Auth = ({ setIsAuth }) => {
+const Auth = ({ setIsAuth, cookies }) => {
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);

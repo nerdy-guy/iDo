@@ -20,6 +20,7 @@ import Auth from "./Firebase/Auth/Auth";
 import { db } from "./Firebase/firebase";
 import { auth } from "../src/Firebase/firebase";
 import { signOut } from "firebase/auth";
+import Navbar from "./components/Navbar/Navbar";
 
 const cookies = new Cookies();
 
@@ -80,64 +81,49 @@ function App() {
     setIsEditing(true);
   };
 
-  if (!isAuth) {
-    return (
-      <div>
-        <Auth setIsAuth={setIsAuth} />
-      </div>
-    );
-  }
-
-  const signUserOut = async () => {
-    await signOut(auth);
-    cookies.remove("auth-token");
-    setIsAuth(false);
-    // setTodoList(null);
-  };
-
   return !isAuth ? (
     <div>
-      <Auth setIsAuth={setIsAuth} />
+      <Auth setIsAuth={setIsAuth} cookies={cookies} />
     </div>
   ) : (
-    <div>
-      <header>
-        <h1>iDo</h1>
-      </header>
+    <>
+      {auth.currentUser && (
+        <div>
+          <Navbar setIsAuth={setIsAuth} cookies={cookies} isAuth={isAuth} />
 
-      {isEditing && (
-        <EditForm
-          editedTodo={editedTodo}
-          editTodo={editTodo}
-          closeEditMode={closeEditMode}
-        />
+          <TodoForm addTodo={addTodo} />
+
+          <ul>
+            {todoList.map((todo) => (
+              <Todo
+                todo={todo}
+                key={todo.id}
+                toggleCompleted={toggleCompleted}
+                deleteTodo={deleteTodo}
+                enterEditMode={enterEditMode}
+              />
+            ))}
+          </ul>
+
+          {isEditing && (
+            <EditForm
+              editedTodo={editedTodo}
+              editTodo={editTodo}
+              closeEditMode={closeEditMode}
+            />
+          )}
+
+          {todoList.length > 0 && (
+            <p>
+              You have{" "}
+              {todoList.length === 1
+                ? `${todoList.length} todo`
+                : `${todoList.length} todos`}
+            </p>
+          )}
+        </div>
       )}
-
-      <TodoForm addTodo={addTodo} />
-
-      <ul>
-        {todoList.map((todo) => (
-          <Todo
-            todo={todo}
-            key={todo.id}
-            toggleCompleted={toggleCompleted}
-            deleteTodo={deleteTodo}
-            enterEditMode={enterEditMode}
-          />
-        ))}
-      </ul>
-
-      {todoList.length > 0 && (
-        <p>
-          You have{" "}
-          {todoList.length === 1
-            ? `${todoList.length} todo`
-            : `${todoList.length} todos`}
-        </p>
-      )}
-
-      <button onClick={signUserOut}>Sign out</button>
-    </div>
+    </>
   );
 }
 
