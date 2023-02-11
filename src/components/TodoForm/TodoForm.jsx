@@ -1,10 +1,22 @@
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import React, { useState } from "react";
+import { auth, db } from "../../Firebase/firebase";
 
-const TodoForm = ({ addTodo }) => {
+const TodoForm = () => {
   const [todo, setTodo] = useState("");
 
   const handleUserInput = (e) => {
     setTodo(e.target.value);
+  };
+
+  const todoListRef = collection(db, "users", auth.currentUser.uid, "todoList");
+
+  const addTodo = async (todo) => {
+    await addDoc(todoListRef, {
+      todo,
+      completed: false,
+      createdAt: serverTimestamp(),
+    });
   };
 
   const handleSubmit = (e) => {

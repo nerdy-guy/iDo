@@ -32,13 +32,13 @@ function App() {
 
   const todoListRef = collection(db, "todoList");
 
-  const addTodo = async (todo) => {
-    await addDoc(todoListRef, {
-      todo,
-      completed: false,
-      createdAt: serverTimestamp(),
-    });
-  };
+  // const addTodo = async (todo) => {
+  //   await addDoc(todoListRef, {
+  //     todo,
+  //     completed: false,
+  //     createdAt: serverTimestamp(),
+  //   });
+  // };
 
   useEffect(() => {
     const queryTodoList = query(todoListRef, orderBy("createdAt", "desc"));
@@ -91,7 +91,7 @@ function App() {
         <div>
           <Navbar setIsAuth={setIsAuth} cookies={cookies} isAuth={isAuth} />
 
-          <TodoForm addTodo={addTodo} />
+          <TodoForm />
 
           <ul>
             {todoList.map((todo) => (
