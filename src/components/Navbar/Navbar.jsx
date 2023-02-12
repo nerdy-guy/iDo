@@ -1,19 +1,22 @@
 import { signOut } from "firebase/auth";
 import React from "react";
-import Cookies from "universal-cookie";
 import { auth } from "../../Firebase/firebase";
 
-const Navbar = ({ setIsAuth, cookies, isAuth }) => {
+const Navbar = ({ setIsAuth }) => {
   const signUserOut = async () => {
-    await signOut(auth);
-    cookies.remove("auth-token");
-    setIsAuth(false);
+    try {
+      await signOut(auth);
+      setIsAuth(false);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
     <div>
       <img
         src={auth.currentUser.photoURL}
+        alt="Profile Picture"
         // TODO: Change witdh from css
         width={40}
       />

@@ -1,13 +1,11 @@
 import { auth, db, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
-import Cookies from "universal-cookie";
 import { doc, setDoc } from "firebase/firestore";
 
-const Auth = ({ setIsAuth, cookies }) => {
+const Auth = ({ setIsAuth }) => {
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      cookies.set("auth-token", result.user.refreshToken);
       setIsAuth(true);
     } catch (e) {
       console.error(e);
