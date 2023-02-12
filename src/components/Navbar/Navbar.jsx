@@ -15,7 +15,11 @@ const Navbar = ({ setIsAuth }) => {
   return (
     <div>
       <img
-        src={auth.currentUser.photoURL}
+        src={
+          auth.currentUser.photoURL
+            ? auth.currentUser.photoURL
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+        }
         alt="Profile Picture"
         // TODO: Change witdh from css
         width={40}

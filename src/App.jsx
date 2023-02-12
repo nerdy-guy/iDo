@@ -17,7 +17,10 @@ function App() {
       setUser(user);
 
       if (user) {
-        cookies.set("auth-token", user.refreshToken);
+        cookies.set(
+          "auth-token",
+          user.isAnonymous === true ? crypto.randomUUID() : user.refreshToken
+        );
       } else {
         cookies.remove("auth-token");
       }

@@ -1,9 +1,9 @@
 import { auth, db, provider } from "../firebase";
-import { signInWithPopup } from "firebase/auth";
+import { signInAnonymously, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 const Auth = ({ setIsAuth }) => {
-  const signInWithGoogle = async () => {
+  const signUpWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       setIsAuth(true);
@@ -21,10 +21,22 @@ const Auth = ({ setIsAuth }) => {
     });
   };
 
+  const signUpAnonymously = async () => {
+    try {
+      const result = await signInAnonymously(auth);
+      setIsAuth(true);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div>
       <p>Sign in with Google to continue</p>
-      <button onClick={signInWithGoogle}>Sign in with Google</button>
+      <button onClick={signUpWithGoogle}>Sign in with Google</button>
+
+      <p>Sign in with Anon</p>
+      <button onClick={signUpAnonymously}>Sign in with anon</button>
     </div>
   );
 };
