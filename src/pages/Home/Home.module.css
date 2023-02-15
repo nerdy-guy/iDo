@@ -1,0 +1,93 @@
+.container {
+  max-width: 50rem;
+}
+
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  max-width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.wrapper img {
+  width: 30px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  font-size: 2.5rem;
+}
+
+.wrapper a {
+  text-decoration: none;
+  transition: 0.7s;
+}
+
+.wrapper svg {
+  width: 1.5rem;
+  fill: currentColor;
+}
+
+.google {
+  display: flex;
+  gap: 1rem;
+  padding: 0.7rem 2rem;
+  background-color: var(--text-color);
+  color: hsl(0, 0%, 0%);
+}
+
+.google:hover {
+  opacity: 0.7;
+}
+
+.email {
+  display: flex;
+  gap: 1rem;
+  padding: 0.7rem 2.6rem;
+  background-color: hsl(216, 87%, 56%);
+  color: var(--text-color);
+}
+
+.email:hover {
+  opacity: 0.7;
+}
+
+.anonymous {
+  display: flex;
+  gap: 1rem;
+  padding: 0.7rem 2.2rem;
+  background-color: hsl(0, 0%, 6%);
+  color: var(--text-color);
+}
+
+.anonymous:hover {
+  opacity: 0.7;
+}
+
+.sign-in {
+  color: hsl(216, 87%, 56%);
+}
+
+.sign-in:hover {
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 48em) {
+  .container {
+    margin: 0 auto;
+    font-size: 1.25rem;
+  }
+
+  .wrapper {
+    max-width: 50%;
+  }
+}

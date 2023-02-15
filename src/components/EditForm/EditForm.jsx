@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import styles from "./EditForm.module.css";
 
 const EditForm = ({ editedTodo, editTodo, closeEditMode }) => {
   const [updatedTodo, setUpdatedTodo] = useState(editedTodo.todo);
@@ -29,24 +30,21 @@ const EditForm = ({ editedTodo, editTodo, closeEditMode }) => {
       role="dialog"
       onClick={(e) => e.target === e.currentTarget && closeEditMode()}
     >
-      <form className="todo" onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className="wrapper">
           <input
             type="text"
             id="editTodo"
-            className="input"
+            className={styles.input}
             value={updatedTodo}
             onInput={handleUserInput}
             autoFocus
             required
             placeholder="Edit Todo"
           />
-          <label htmlFor="editTodo" className="label">
-            Edit Todo
-          </label>
         </div>
         <button
-          className="btn"
+          className={styles.edit}
           type="submit"
           aria-label={`Confrim edit todo to ${updatedTodo}`}
         >

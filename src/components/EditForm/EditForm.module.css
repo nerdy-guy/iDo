@@ -1,0 +1,57 @@
+[role="dialog"] {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: hsla(215, 21%, 11%, 0.484);
+}
+
+.form {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: hsl(210, 14%, 14%);
+  border: 2px solid hsl(216, 87%, 56%);
+}
+
+.input {
+  border-radius: 0.3rem;
+  border: none;
+  outline: transparent;
+  padding: 0.5rem 1rem;
+}
+
+.input:focus {
+  outline: 2px solid hsl(216, 87%, 56%);
+}
+
+.edit {
+  padding: 0.3rem;
+  background-color: hsl(216, 87%, 56%);
+  color: var(--text-color);
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: 0.7s;
+  outline: transparent;
+}
+
+.edit:hover {
+  opacity: 0.7;
+}
+
+.edit svg {
+  width: 30px;
+}
+
+@media screen and (min-width: 48em) {
+  .form {
+    padding: 2rem 3rem;
+  }
+
+  .edit svg {
+    width: 40px;
+  }
+}

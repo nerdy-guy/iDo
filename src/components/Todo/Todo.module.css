@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  justify-content: center;
+  border: 2px solid hsl(216, 87%, 56%);
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.container:last-child {
+  margin-bottom: 6rem;
+}
+
+.container li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+  min-width: 18.75rem;
+  max-width: 18.75rem;
+}
+
+.label:hover {
+  cursor: pointer;
+}
+
+.checkbox {
+  filter: hue-rotate(240deg);
+  transform: scale(1.7);
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.checkbox:checked + label {
+  text-decoration: line-through;
+  color: #989898;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.options svg {
+  width: 1rem;
+}
+
+.edit {
+  padding: 0.3rem;
+  background-color: rgb(109, 234, 90);
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+.edit:hover {
+  opacity: 0.7;
+}
+
+.delete {
+  padding: 0.3rem;
+  background-color: rgb(234, 90, 90);
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+.delete:hover {
+  opacity: 0.7;
+}
+
+@media screen and (min-width: 48em) {
+  .options {
+    gap: 1rem;
+  }
+
+  .options svg {
+    width: 1.5rem;
+  }
+
+  .container li {
+    min-width: 800px;
+    max-width: 800px;
+  }
+}
