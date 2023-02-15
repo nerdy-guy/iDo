@@ -1,9 +1,11 @@
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   border: 2px solid hsl(216, 87%, 56%);
   padding: 1rem 1rem;
   border-radius: 0.5rem;
+  max-width: 100%;
+  min-width: 100%;
 }
 
 .container:last-child {
@@ -13,9 +15,9 @@
 .container li {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
   justify-content: space-between;
-  min-width: 18.75rem;
+  min-width: 100%;
 }
 
 .label:hover {
@@ -47,6 +49,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  margin-left: auto;
 }
 
 .options svg {
@@ -80,16 +83,15 @@
 }
 
 @media screen and (min-width: 48em) {
+  .container {
+    max-width: 80%;
+  }
+
   .options {
     gap: 1rem;
   }
 
   .options svg {
     width: 1.5rem;
-  }
-
-  .container li {
-    min-width: 800px;
-    max-width: 800px;
   }
 }
