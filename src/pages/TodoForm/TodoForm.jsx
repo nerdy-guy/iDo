@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -23,6 +24,7 @@ const TodoForm = ({ setIsAuth }) => {
   const [todoList, setTodoList] = useState([]);
   const [editedTodo, setEditedTodo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [displayName, setDisplayName] = useState("");
 
   const navigate = useNavigate();
 
@@ -114,6 +116,19 @@ const TodoForm = ({ setIsAuth }) => {
     setIsEditing(true);
   };
 
+  useEffect(() => {
+    const userData = async () => {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(userRef);
+
+      if (docSnap.exists()) {
+        setDisplayName(docSnap.data().displayName);
+      }
+    };
+
+    userData();
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -135,8 +150,8 @@ const TodoForm = ({ setIsAuth }) => {
         </div>
 
         {todoList.length > 0 && (
-          <p>
-            You have{" "}
+          <p className={styles.count}>
+            {displayName ? `${displayName},` : "Anonymous,"} You have{" "}
             {todoList.length === 1
               ? `${todoList.length} todo`
               : `${todoList.length} todos`}
