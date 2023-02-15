@@ -1,13 +1,14 @@
 .container {
-  overflow-x: hidden;
+  max-width: 80rem;
 }
 
 .wrapper {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  gap: 1rem;
   max-width: 80%;
+  margin: 0 auto;
 }
 
 .nav {
@@ -106,6 +107,7 @@
 
 @media screen and (min-width: 48em) {
   .container {
+    margin: 0 auto;
     font-size: 1.5rem;
   }
   .wrapper {
