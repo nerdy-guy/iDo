@@ -9,7 +9,7 @@
 
 .container button {
   padding: 0.5rem 2rem;
-  background-color: rgb(55, 194, 194);
+  background-color: var(--outline-color);
   color: var(--text-color);
   border: none;
   border-radius: 0.5rem;
