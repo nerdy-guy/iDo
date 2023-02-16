@@ -33,7 +33,7 @@ const SignUp = ({ setIsAuth, setIsSignedUp }) => {
 
       setIsSignedUp(true);
 
-      await signOut(auth);
+      // await signOut(auth);
 
       // setIsAuth(true);
       navigate("/verification");

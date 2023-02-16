@@ -10,6 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import SignUp from "./pages/SignUpForm/SignUpForm";
 import SignInForm from "./pages/SignInForm/SignInForm";
 import TodoForm from "./pages/TodoForm/TodoForm";
+import Error from "./pages/Error/Error";
 
 const cookies = new Cookies();
 
@@ -73,6 +74,7 @@ function App() {
             />
           )}
           )
+          <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
     </div>
