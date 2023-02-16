@@ -1,7 +1,7 @@
 import { sendEmailVerification } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { auth } from "../../Firebase/firebase";
-import styles from "./VerificationPage.module.css";
+import styles from "./Verification.module.css";
 
 const VerificationPage = () => {
   const handleResend = async () => {

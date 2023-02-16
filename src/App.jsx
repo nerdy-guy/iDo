@@ -5,13 +5,12 @@ import Auth from "./pages/Home/Home";
 import { auth } from "./Firebase/firebase";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Protected from "./components/Protected/Protected";
-import VerificationPage from "./components/verificationPage/VerificationPage";
 import { onAuthStateChanged } from "firebase/auth";
 import SignUp from "./pages/SignUpForm/SignUpForm";
 import SignInForm from "./pages/SignInForm/SignInForm";
 import TodoForm from "./pages/TodoForm/TodoForm";
 import Error from "./pages/Error/Error";
-
+import Verification from "./pages/Verification/Verification";
 const cookies = new Cookies();
 
 function App() {
@@ -59,10 +58,10 @@ function App() {
               )
             }
           />
-          {isSignedUp && (
-            <Route path="/verification" element={<VerificationPage />} />
+          {isSignedUp && !isAuth && !user.emailVerified && (
+            <Route path="/verification" element={<Verification />} />
           )}
-          (
+
           {user && (user.emailVerified || user.isAnonymous) && isAuth && (
             <Route
               path="/todo"
@@ -73,7 +72,7 @@ function App() {
               }
             />
           )}
-          )
+
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
