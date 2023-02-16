@@ -9,7 +9,7 @@ import { auth, db } from "../../config/firebase";
 import styles from "./SignUpForm.module.css";
 import logo from "../../assets/logo.svg";
 
-const SignUpForm = ({ setIsAuth, setIsSignedUp }) => {
+const SignUpForm = ({}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -29,9 +29,6 @@ const SignUpForm = ({ setIsAuth, setIsSignedUp }) => {
       });
 
       await sendEmailVerification(auth.currentUser);
-
-      setIsSignedUp(true);
-      // setIsAuth(true);
 
       navigate("/verification");
     } catch (e) {

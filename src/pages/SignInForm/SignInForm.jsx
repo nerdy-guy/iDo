@@ -24,7 +24,7 @@ const SignInForm = ({ setIsAuth }) => {
 
       if (auth.currentUser.emailVerified) {
         setIsAuth(true);
-        navigate("/todo");
+        // navigate("/todo");
       }
 
       if (auth.currentUser.emailVerified === false) {
@@ -37,6 +37,8 @@ const SignInForm = ({ setIsAuth }) => {
       setError(true);
       setCheckVerified(false);
     }
+
+    navigate("/todo");
 
     setPassword("");
   };

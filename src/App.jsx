@@ -10,13 +10,13 @@ import TodoForm from "./pages/TodoForm/TodoForm";
 import Error from "./pages/Error/Error";
 import Verification from "./pages/Verification/Verification";
 import SignUpForm from "./pages/SignUpForm/SignUpForm";
+import Loading from "./components/Loading/Loading";
 
 const cookies = new Cookies();
 
 function App() {
   const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
   const [user, setUser] = useState(null);
-  const [isSignedUp, setIsSignedUp] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -32,19 +32,34 @@ function App() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user, isAuth, user?.emailVerified]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home setIsAuth={setIsAuth} />} />
+
         <Route
           path="/signup"
           element={
-            <SignUpForm setIsAuth={setIsAuth} setIsSignedUp={setIsSignedUp} />
+            (user && isAuth && user?.emailVerified) || user?.isAnonymous ? (
+              <Navigate to="/todo" />
+            ) : (
+              <SignUpForm setIsAuth={setIsAuth} />
+            )
           }
         />
-        <Route path="/signin" element={<SignInForm setIsAuth={setIsAuth} />} />
+
+        <Route
+          path="/signin"
+          element={
+            (user && isAuth && user?.emailVerified) || user?.isAnonymous ? (
+              <Navigate to="/todo" />
+            ) : (
+              <SignInForm setIsAuth={setIsAuth} />
+            )
+          }
+        />
 
         <Route
           path="/verification"
@@ -68,18 +83,18 @@ function App() {
             />
           )} */}
 
-        {user && (
-          <Route
-            path="/todo"
-            element={
-              // <Protected isAuth={isAuth}>
+        <Route
+          path="/todo"
+          element={
+            (user && isAuth && user?.emailVerified) || user?.isAnonymous ? (
               <TodoForm setIsAuth={setIsAuth} />
-              // </Protected>
-            }
-          />
-        )}
+            ) : (
+              <Loading />
+            )
+          }
+        />
 
-        {/* <Route path="*" element={<Error />} /> */}
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );
