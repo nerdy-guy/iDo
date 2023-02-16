@@ -1,4 +1,7 @@
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase";
@@ -10,6 +13,7 @@ const SignInForm = ({ setIsAuth }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [checkVerified, setCheckVerified] = useState(false);
+  const [notify, setNotify] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,16 +22,16 @@ const SignInForm = ({ setIsAuth }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
 
-      if (auth.currentUser.emailVerified === false) {
-        await signOut(auth);
-        setCheckVerified(true);
-        setError(false);
-        return;
-      }
-
       if (auth.currentUser.emailVerified) {
         setIsAuth(true);
         navigate("/todo");
+      }
+
+      if (auth.currentUser.emailVerified === false) {
+        setCheckVerified(true);
+        setIsAuth(false);
+        setError(false);
+        return;
       }
     } catch (e) {
       setError(true);
@@ -35,6 +39,11 @@ const SignInForm = ({ setIsAuth }) => {
     }
 
     setPassword("");
+  };
+
+  const handleResend = async () => {
+    await sendEmailVerification(auth.currentUser);
+    setNotify(true);
   };
 
   return (
@@ -79,7 +88,15 @@ const SignInForm = ({ setIsAuth }) => {
         )}
 
         {checkVerified && (
-          <span className={styles.error}>Please verify your email</span>
+          <span className={styles.error}>
+            Please verify your email.{" "}
+            <span className={styles.resend} onClick={handleResend}>
+              Resend email verification
+            </span>
+            {notify && (
+              <p className={styles.notify}>Email verification sent!</p>
+            )}
+          </span>
         )}
 
         <button type="submit" className={styles["sign-in"]}>

@@ -1,23 +1,22 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
-  signOut,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../../Firebase/firebase";
 import styles from "./SignUpForm.module.css";
 import logo from "../../assets/logo.svg";
 
-const SignUp = ({ setIsAuth, setIsSignedUp }) => {
+const SignUpForm = ({ setIsAuth, setIsSignedUp }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignUp = async (e) => {
+  const signUpWithEmailAndPassword = async (e) => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -32,10 +31,8 @@ const SignUp = ({ setIsAuth, setIsSignedUp }) => {
       await sendEmailVerification(auth.currentUser);
 
       setIsSignedUp(true);
-
-      // await signOut(auth);
-
       // setIsAuth(true);
+
       navigate("/verification");
     } catch (e) {
       setError(
@@ -50,7 +47,7 @@ const SignUp = ({ setIsAuth, setIsSignedUp }) => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSignUp}>
+      <form className={styles.form} onSubmit={signUpWithEmailAndPassword}>
         <Link to="/" className={styles.logo}>
           <img src={logo} alt="iDo logo" /> iDo
         </Link>
@@ -108,4 +105,4 @@ const SignUp = ({ setIsAuth, setIsSignedUp }) => {
   );
 };
 
-export default SignUp;
+export default SignUpForm;

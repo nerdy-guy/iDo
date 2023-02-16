@@ -1,32 +1,32 @@
+import { Link, useNavigate } from "react-router-dom";
 import { auth, db, provider } from "../../Firebase/firebase";
 import { signInAnonymously, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import logo from "../../assets/logo.svg";
 
-const Auth = ({ setIsAuth }) => {
+const Home = ({ setIsAuth }) => {
   const navigate = useNavigate();
 
   const signUpWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       setIsAuth(true);
+
+      const userRef = doc(db, "users", auth.currentUser.uid);
+
+      const { currentUser } = auth;
+
+      await setDoc(userRef, {
+        displayName: currentUser.displayName,
+        email: currentUser.email,
+        photo: currentUser.photoURL,
+        uid: currentUser.uid,
+      });
+
+      navigate("/todo");
     } catch (e) {
       console.error(e);
-    }
-
-    const userRef = doc(db, "users", auth.currentUser.uid);
-
-    await setDoc(userRef, {
-      displayName: auth.currentUser.displayName,
-      email: auth.currentUser.email,
-      photo: auth.currentUser.photoURL,
-      uid: auth.currentUser.uid,
-    });
-
-    if (auth) {
-      navigate("/todo");
     }
   };
 
@@ -34,12 +34,9 @@ const Auth = ({ setIsAuth }) => {
     try {
       const result = await signInAnonymously(auth);
       setIsAuth(true);
+      navigate("/todo");
     } catch (e) {
       console.error(e);
-    }
-
-    if (auth) {
-      navigate("/todo");
     }
   };
 
@@ -84,4 +81,4 @@ const Auth = ({ setIsAuth }) => {
   );
 };
 
-export default Auth;
+export default Home;

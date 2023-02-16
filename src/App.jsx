@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
-import "./App.css";
-import Auth from "./pages/Home/Home";
-import { auth } from "./Firebase/firebase";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Protected from "./components/Protected/Protected";
 import { onAuthStateChanged } from "firebase/auth";
-import SignUp from "./pages/SignUpForm/SignUpForm";
+import { auth } from "./Firebase/firebase";
+import Cookies from "universal-cookie";
+import Home from "./pages/Home/Home";
+import Protected from "./components/Protected/Protected";
 import SignInForm from "./pages/SignInForm/SignInForm";
 import TodoForm from "./pages/TodoForm/TodoForm";
 import Error from "./pages/Error/Error";
 import Verification from "./pages/Verification/Verification";
+import SignUpForm from "./pages/SignUpForm/SignUpForm";
+
 const cookies = new Cookies();
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
       setUser(user);
 
       if (user) {
+        console.log(user);
         cookies.set("auth-token", user.refreshToken);
       } else {
         cookies.remove("auth-token");
@@ -37,32 +38,30 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Auth setIsAuth={setIsAuth} />} />
+          <Route path="/" element={<Home setIsAuth={setIsAuth} />} />
           <Route
             path="/signup"
             element={
-              isAuth ? (
-                <Navigate to="/todo" />
-              ) : (
-                <SignUp setIsAuth={setIsAuth} setIsSignedUp={setIsSignedUp} />
-              )
+              <SignUpForm setIsAuth={setIsAuth} setIsSignedUp={setIsSignedUp} />
             }
           />
           <Route
             path="/signin"
+            element={<SignInForm setIsAuth={setIsAuth} />}
+          />
+
+          <Route
+            path="/verification"
             element={
-              isAuth ? (
-                <Navigate to="/todo" />
+              user && !user?.emailVerified && !user?.isAnonymous ? (
+                <Verification />
               ) : (
-                <SignInForm setIsAuth={setIsAuth} />
+                <Navigate to="/" />
               )
             }
           />
-          {isSignedUp && !isAuth && !user.emailVerified && (
-            <Route path="/verification" element={<Verification />} />
-          )}
 
-          {user && (user.emailVerified || user.isAnonymous) && isAuth && (
+          {/* {user && isAuth && (user.emailVerified || user.isAnonymous) && (
             <Route
               path="/todo"
               element={
@@ -71,9 +70,20 @@ function App() {
                 </Protected>
               }
             />
+          )} */}
+
+          {user && (
+            <Route
+              path="/todo"
+              element={
+                // <Protected isAuth={isAuth}>
+                <TodoForm setIsAuth={setIsAuth} />
+                // </Protected>
+              }
+            />
           )}
 
-          <Route path="*" element={<Error />} />
+          {/* <Route path="*" element={<Error />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

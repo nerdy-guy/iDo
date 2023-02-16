@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   addDoc,
   collection,
@@ -10,14 +12,13 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
 import { auth, db } from "../../Firebase/firebase";
+import { signOut } from "firebase/auth";
 import EditForm from "../../components/EditForm/EditForm";
 import Todo from "../../components/Todo/Todo";
-import { signOut } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
 import styles from "./TodoForm.module.css";
 import logo from "../../assets/logo.svg";
+import Loading from "../../components/Loading/Loading";
 
 const TodoForm = ({ setIsAuth }) => {
   const [todo, setTodo] = useState("");
@@ -25,6 +26,7 @@ const TodoForm = ({ setIsAuth }) => {
   const [editedTodo, setEditedTodo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [displayName, setDisplayName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -70,6 +72,7 @@ const TodoForm = ({ setIsAuth }) => {
         todoList.push({ ...doc.data(), id: doc.id });
       });
       setTodoList(todoList);
+      setIsLoading(false);
     });
 
     return () => unsubscribe();
@@ -128,6 +131,10 @@ const TodoForm = ({ setIsAuth }) => {
 
     userData();
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.container}>
