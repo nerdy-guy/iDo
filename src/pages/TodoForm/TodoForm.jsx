@@ -12,7 +12,7 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase";
+import { auth, db } from "../../config/firebase";
 import { signOut } from "firebase/auth";
 import EditForm from "../../components/EditForm/EditForm";
 import Todo from "../../components/Todo/Todo";

@@ -5,7 +5,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase";
+import { auth, db } from "../../config/firebase";
 import styles from "./SignUpForm.module.css";
 import logo from "../../assets/logo.svg";
 

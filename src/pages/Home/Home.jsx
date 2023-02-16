@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db, provider } from "../../Firebase/firebase";
+import { auth, db, provider } from "../../config/firebase";
 import { signInAnonymously, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import styles from "./Home.module.css";

@@ -4,7 +4,7 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../Firebase/firebase";
+import { auth } from "../../config/firebase";
 import styles from "./SignInForm.module.css";
 import logo from "../../assets/logo.svg";
 

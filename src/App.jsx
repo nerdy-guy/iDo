@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./Firebase/firebase";
+import { auth } from "./config/firebase";
 import Cookies from "universal-cookie";
 import Home from "./pages/Home/Home";
 import Protected from "./components/Protected/Protected";
@@ -35,33 +35,29 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home setIsAuth={setIsAuth} />} />
-          <Route
-            path="/signup"
-            element={
-              <SignUpForm setIsAuth={setIsAuth} setIsSignedUp={setIsSignedUp} />
-            }
-          />
-          <Route
-            path="/signin"
-            element={<SignInForm setIsAuth={setIsAuth} />}
-          />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home setIsAuth={setIsAuth} />} />
+        <Route
+          path="/signup"
+          element={
+            <SignUpForm setIsAuth={setIsAuth} setIsSignedUp={setIsSignedUp} />
+          }
+        />
+        <Route path="/signin" element={<SignInForm setIsAuth={setIsAuth} />} />
 
-          <Route
-            path="/verification"
-            element={
-              user && !user?.emailVerified && !user?.isAnonymous ? (
-                <Verification />
-              ) : (
-                <Navigate to="/" />
-              )
-            }
-          />
+        <Route
+          path="/verification"
+          element={
+            user && !user?.emailVerified && !user?.isAnonymous ? (
+              <Verification />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
 
-          {/* {user && isAuth && (user.emailVerified || user.isAnonymous) && (
+        {/* {user && isAuth && (user.emailVerified || user.isAnonymous) && (
             <Route
               path="/todo"
               element={
@@ -72,21 +68,20 @@ function App() {
             />
           )} */}
 
-          {user && (
-            <Route
-              path="/todo"
-              element={
-                // <Protected isAuth={isAuth}>
-                <TodoForm setIsAuth={setIsAuth} />
-                // </Protected>
-              }
-            />
-          )}
+        {user && (
+          <Route
+            path="/todo"
+            element={
+              // <Protected isAuth={isAuth}>
+              <TodoForm setIsAuth={setIsAuth} />
+              // </Protected>
+            }
+          />
+        )}
 
-          {/* <Route path="*" element={<Error />} /> */}
-        </Routes>
-      </BrowserRouter>
-    </div>
+        {/* <Route path="*" element={<Error />} /> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
