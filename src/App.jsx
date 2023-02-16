@@ -39,9 +39,27 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setIsAuth={setIsAuth} />} />
 
-        <Route path="/signup" element={<SignUpForm setIsAuth={setIsAuth} />} />
+        <Route
+          path="/signup"
+          element={
+            (user && isAuth && user?.emailVerified) || user?.isAnonymous ? (
+              <Navigate to="/todo" />
+            ) : (
+              <SignUpForm setIsAuth={setIsAuth} />
+            )
+          }
+        />
 
-        <Route path="/signin" element={<SignInForm setIsAuth={setIsAuth} />} />
+        <Route
+          path="/signin"
+          element={
+            (user && isAuth && user?.emailVerified) || user?.isAnonymous ? (
+              <Navigate to="/todo" />
+            ) : (
+              <SignInForm setIsAuth={setIsAuth} />
+            )
+          }
+        />
 
         <Route
           path="/verification"
