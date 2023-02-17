@@ -11,7 +11,6 @@ const Home = ({ setIsAuth }) => {
   const signUpWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      setIsAuth(true);
 
       const userRef = doc(db, "users", auth.currentUser.uid);
 
@@ -22,8 +21,13 @@ const Home = ({ setIsAuth }) => {
         email: currentUser.email,
         photo: currentUser.photoURL,
         uid: currentUser.uid,
+        emailVerified: currentUser.emailVerified,
+        isAnonymous: currentUser.isAnonymous,
+        createdAt: currentUser.metadata.creationTime,
+        lastSignInAt: currentUser.metadata.lastSignInTime,
       });
 
+      setIsAuth(true);
       navigate("/todo");
     } catch (e) {
       console.error(e);
@@ -33,6 +37,19 @@ const Home = ({ setIsAuth }) => {
   const signUpAnonymously = async () => {
     try {
       const result = await signInAnonymously(auth);
+
+      const userRef = doc(db, "users", auth.currentUser.uid);
+
+      const { currentUser } = auth;
+
+      await setDoc(userRef, {
+        uid: currentUser.uid,
+        emailVerified: currentUser.emailVerified,
+        isAnonymous: currentUser.isAnonymous,
+        createdAt: currentUser.metadata.creationTime,
+        lastSignInAt: currentUser.metadata.lastSignInTime,
+      });
+
       setIsAuth(true);
       navigate("/todo");
     } catch (e) {

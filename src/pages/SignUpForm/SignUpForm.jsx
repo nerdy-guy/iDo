@@ -22,10 +22,17 @@ const SignUpForm = () => {
       await createUserWithEmailAndPassword(auth, email, password);
 
       const userRef = doc(db, "users", auth.currentUser.uid);
+
+      const { currentUser } = auth;
+
       await setDoc(userRef, {
         displayName,
         email,
-        password,
+        uid: currentUser.uid,
+        emailVerified: currentUser.emailVerified,
+        isAnonymous: currentUser.isAnonymous,
+        createdAt: currentUser.metadata.creationTime,
+        lastSignInAt: currentUser.metadata.lastSignInTime,
       });
 
       await sendEmailVerification(auth.currentUser);
