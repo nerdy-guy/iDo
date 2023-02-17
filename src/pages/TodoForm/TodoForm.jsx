@@ -18,6 +18,7 @@ import EditForm from "../../components/EditForm/EditForm";
 import Todo from "../../components/Todo/Todo";
 import Loading from "../../components/Loading/Loading";
 import logo from "../../assets/logo.svg";
+import blank from "../../assets/blank-profile-picture.png";
 import styles from "./TodoForm.module.css";
 
 const TodoForm = ({ setIsAuth }) => {
@@ -146,9 +147,7 @@ const TodoForm = ({ setIsAuth }) => {
           <div className={styles.profile}>
             <img
               src={
-                auth.currentUser.photoURL
-                  ? auth.currentUser.photoURL
-                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                auth.currentUser.photoURL ? auth.currentUser.photoURL : blank
               }
               alt="Profile Picture"
             />
