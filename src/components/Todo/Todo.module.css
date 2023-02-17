@@ -20,6 +20,11 @@
   min-width: 100%;
 }
 
+.label {
+  max-width: 14rem;
+  word-wrap: break-word;
+}
+
 .label:hover {
   cursor: pointer;
 }
@@ -85,6 +90,10 @@
 @media screen and (min-width: 48em) {
   .container {
     max-width: 80%;
+  }
+
+  .label {
+    max-width: 40rem;
   }
 
   .options {
