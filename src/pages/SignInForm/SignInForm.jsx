@@ -4,7 +4,8 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase";
 import logo from "../../assets/logo.svg";
 import styles from "./SignInForm.module.css";
 
@@ -23,11 +24,16 @@ const SignInForm = ({ setIsAuth }) => {
       await signInWithEmailAndPassword(auth, email, password);
 
       if (auth.currentUser.emailVerified) {
+        const { currentUser } = auth;
+
+        await updateDoc(doc(db, "users", auth.currentUser.uid), {
+          emailVerified: currentUser.emailVerified,
+          lastSignInAt: currentUser.metadata.lastSignInTime,
+        });
+
         setIsAuth(true);
         navigate("/todo");
-      }
-
-      if (auth.currentUser.emailVerified === false) {
+      } else {
         setCheckVerified(true);
         setIsAuth(false);
         setError(false);
