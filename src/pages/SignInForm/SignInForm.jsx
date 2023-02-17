@@ -1,12 +1,12 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   sendEmailVerification,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
-import styles from "./SignInForm.module.css";
 import logo from "../../assets/logo.svg";
+import styles from "./SignInForm.module.css";
 
 const SignInForm = ({ setIsAuth }) => {
   const [email, setEmail] = useState("");

@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db, provider } from "../../config/firebase";
 import { signInAnonymously, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import styles from "./Home.module.css";
+import { auth, db, provider } from "../../config/firebase";
 import logo from "../../assets/logo.svg";
+import styles from "./Home.module.css";
 
 const Home = ({ setIsAuth }) => {
   const navigate = useNavigate();

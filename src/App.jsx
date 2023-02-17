@@ -4,7 +4,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./config/firebase";
 import Cookies from "universal-cookie";
 import Home from "./pages/Home/Home";
-import Protected from "./components/Protected/Protected";
 import SignInForm from "./pages/SignInForm/SignInForm";
 import TodoForm from "./pages/TodoForm/TodoForm";
 import Error from "./pages/Error/Error";
@@ -22,8 +21,7 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
 
-      if (user) {
-        console.log(user);
+      if ((user && isAuth && user?.emailVerified) || user?.isAnonymous) {
         cookies.set("auth-token", user.refreshToken);
       } else {
         cookies.remove("auth-token");
@@ -45,7 +43,7 @@ function App() {
             (user && isAuth && user?.emailVerified) || user?.isAnonymous ? (
               <Navigate to="/todo" />
             ) : (
-              <SignUpForm setIsAuth={setIsAuth} />
+              <SignUpForm />
             )
           }
         />
@@ -71,17 +69,6 @@ function App() {
             )
           }
         />
-
-        {/* {user && isAuth && (user.emailVerified || user.isAnonymous) && (
-            <Route
-              path="/todo"
-              element={
-                <Protected isAuth={isAuth}>
-                  <TodoForm setIsAuth={setIsAuth} />
-                </Protected>
-              }
-            />
-          )} */}
 
         <Route
           path="/todo"

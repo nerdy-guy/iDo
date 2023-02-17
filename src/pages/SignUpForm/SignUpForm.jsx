@@ -6,10 +6,10 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
-import styles from "./SignUpForm.module.css";
 import logo from "../../assets/logo.svg";
+import styles from "./SignUpForm.module.css";
 
-const SignUpForm = ({}) => {
+const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");

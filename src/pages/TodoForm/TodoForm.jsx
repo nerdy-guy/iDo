@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -13,12 +14,11 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
-import { signOut } from "firebase/auth";
 import EditForm from "../../components/EditForm/EditForm";
 import Todo from "../../components/Todo/Todo";
-import styles from "./TodoForm.module.css";
-import logo from "../../assets/logo.svg";
 import Loading from "../../components/Loading/Loading";
+import logo from "../../assets/logo.svg";
+import styles from "./TodoForm.module.css";
 
 const TodoForm = ({ setIsAuth }) => {
   const [todo, setTodo] = useState("");
