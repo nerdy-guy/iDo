@@ -11,6 +11,8 @@
 
   /* Fonts */
   --ff-primary: "Noto Sans", Arial, Helvetica, sans-serif;
+
+  --toastify-toast-width: 25rem !important;
 }
 
 /* Box sizing rules */
@@ -85,8 +87,11 @@ select {
 
 /* Global Styles */
 
-body {
+* {
   font-family: var(--ff-primary);
+}
+
+body {
   background-color: var(--bg-color);
   color: var(--primary-color);
 }

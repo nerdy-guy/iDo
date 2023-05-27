@@ -73,10 +73,6 @@
   text-decoration: underline;
 }
 
-.notify {
-  color: hsl(132, 51%, 42%);
-}
-
 .sign-up {
   text-decoration: none;
   color: var(--outline-color);
@@ -84,10 +80,6 @@
 
 .sign-up:hover {
   text-decoration: underline;
-}
-
-.error {
-  color: var(--error-color);
 }
 
 @media screen and (min-width: 48em) {

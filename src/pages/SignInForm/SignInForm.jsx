@@ -8,13 +8,12 @@ import { doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import logo from "../../assets/logo.svg";
 import styles from "./SignInForm.module.css";
+import { toast } from "react-toastify";
 
 const SignInForm = ({ setIsAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
   const [checkVerified, setCheckVerified] = useState(false);
-  const [notify, setNotify] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,20 +35,29 @@ const SignInForm = ({ setIsAuth }) => {
       } else {
         setCheckVerified(true);
         setIsAuth(false);
-        setError(false);
+        toast.error("Please verify your email address.");
         return;
       }
     } catch (e) {
-      setError(true);
       setCheckVerified(false);
+      toast.error("Incorrect email or password.");
     }
 
     setPassword("");
   };
 
   const handleResend = async () => {
-    await sendEmailVerification(auth.currentUser);
-    setNotify(true);
+    try {
+      await sendEmailVerification(auth.currentUser);
+
+      toast.success("Email verification sent!");
+    } catch (e) {
+      toast.error(
+        e.code === "auth/too-many-requests"
+          ? "Too many requests. Please try again later."
+          : "An error has occurred. Please try again later."
+      );
+    }
   };
 
   return (
@@ -89,19 +97,9 @@ const SignInForm = ({ setIsAuth }) => {
           />
         </div>
 
-        {error && (
-          <span className={styles.error}>Incorrect email or password</span>
-        )}
-
         {checkVerified && (
-          <span className={styles.error}>
-            Please verify your email.{" "}
-            <span className={styles.resend} onClick={handleResend}>
-              Resend email verification
-            </span>
-            {notify && (
-              <p className={styles.notify}>Email verification sent!</p>
-            )}
+          <span className={styles.resend} onClick={handleResend}>
+            Resend email verification
           </span>
         )}
 

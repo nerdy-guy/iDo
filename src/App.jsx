@@ -7,7 +7,6 @@ import Home from "./pages/Home/Home";
 import SignInForm from "./pages/SignInForm/SignInForm";
 import TodoForm from "./pages/TodoForm/TodoForm";
 import Error from "./pages/Error/Error";
-import Verification from "./pages/Verification/Verification";
 import SignUpForm from "./pages/SignUpForm/SignUpForm";
 import Loading from "./components/Loading/Loading";
 
@@ -55,17 +54,6 @@ function App() {
               <Navigate to="/todo" />
             ) : (
               <SignInForm setIsAuth={setIsAuth} />
-            )
-          }
-        />
-
-        <Route
-          path="/verification"
-          element={
-            user && !user?.emailVerified && !user?.isAnonymous ? (
-              <Verification />
-            ) : (
-              <Navigate to="/" />
             )
           }
         />

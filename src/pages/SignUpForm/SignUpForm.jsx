@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
+import { toast } from "react-toastify";
 import logo from "../../assets/logo.svg";
 import styles from "./SignUpForm.module.css";
 
@@ -13,7 +14,6 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const signUpWithEmailAndPassword = async (e) => {
@@ -37,14 +37,15 @@ const SignUpForm = () => {
 
       await sendEmailVerification(auth.currentUser);
 
-      navigate("/verification");
+      toast.success("Email verification sent!");
+
+      navigate("/signin");
     } catch (e) {
-      setError(
+      toast.error(
         e.code === "auth/email-already-in-use"
           ? "This email is already in use"
           : "An error occurred. Please try again later."
       );
-      console.error(e);
       setPassword("");
     }
   };
@@ -94,7 +95,6 @@ const SignUpForm = () => {
             required
           />
         </div>
-        <span className={styles.error}>{error}</span>
         <button className={styles["sign-up"]} type="submit">
           Sign Up
         </button>
